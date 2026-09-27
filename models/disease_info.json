@@ -1,0 +1,102 @@
+{
+  "Tomato___Early_blight": {
+    "crop": "Tomato",
+    "disease": "Early Blight",
+    "pathogen": "Fungus (Alternaria solani)",
+    "severity": "Moderate to High",
+    "symptoms": "Dark brown circular spots with characteristic concentric rings ('bullseye' target pattern) starting on older lower foliage, surrounded by chlorotic yellow halos.",
+    "organic_treatment": "Apply bio-fungicides containing Bacillus subtilis or copper octanoate spray. Strip affected lower leaves immediately and mulch soil to prevent fungal spore splash.",
+    "chemical_treatment": "Foliar application of Chlorothalonil (0.2%) or Mancozeb (0.25%) at 7 to 10 day intervals during warm humid weather.",
+    "prevention": "Maintain 3-year Solanaceous crop rotation, utilize drip irrigation instead of overhead sprinklers, and ensure optimal plant spacing (60 cm) for canopy airflow."
+  },
+  "Tomato___Late_blight": {
+    "crop": "Tomato",
+    "disease": "Late Blight",
+    "pathogen": "Oomycete (Phytophthora infestans)",
+    "severity": "Critical (Rapid Crop Loss)",
+    "symptoms": "Large, irregular water-soaked pale green to dark brown lesions on leaves and stems, often accompanied by white fluffy fungal mycelium on leaf undersides in high humidity.",
+    "organic_treatment": "Bordeaux mixture (copper sulfate + lime) or copper hydroxide sprays applied as early protectants; remove and incinerate severely infected vines.",
+    "chemical_treatment": "Systemic fungicides such as Metalaxyl + Mancozeb (Ridomil Gold) or Cymoxanil; spray proactively when night temps are 10-15C and relative humidity exceeds 90%.",
+    "prevention": "Plant certified disease-free transplants, eliminate cull piles and volunteer tomato/potato plants, and monitor local late blight weather alerts."
+  },
+  "Tomato___healthy": {
+    "crop": "Tomato",
+    "disease": "Healthy Foliage",
+    "pathogen": "None (Optimum Physiological Health)",
+    "severity": "None",
+    "symptoms": "Vibrant uniform dark-green compound leaves, robust venation, absence of lesions, spots, or chlorosis.",
+    "organic_treatment": "Maintain balanced vermicompost tea or seaweed foliar spray every 2 weeks for systemic acquired resistance.",
+    "chemical_treatment": "No chemical intervention needed. Avoid unnecessary prophylactic fungicide applications.",
+    "prevention": "Continue regular nutrient management (NPK 4:2:4 during vegetative, 2:1:4 during fruiting), optimal soil moisture, and pest scouting."
+  },
+  "Potato___Early_blight": {
+    "crop": "Potato",
+    "disease": "Early Blight",
+    "pathogen": "Fungus (Alternaria solani)",
+    "severity": "Moderate",
+    "symptoms": "Small brown angular spots enlarging to show concentric dark rings, restricted by leaf veins; premature leaf defoliation.",
+    "organic_treatment": "Spray neem seed kernel extract (5%) or copper oxychloride; remove infected leaf trash post-harvest.",
+    "chemical_treatment": "Apply Azoxystrobin, Difenoconazole, or Chlorothalonil every 10-14 days.",
+    "prevention": "Ensure adequate nitrogen and potassium fertilization; stressed plants are significantly more susceptible."
+  },
+  "Potato___Late_blight": {
+    "crop": "Potato",
+    "disease": "Late Blight",
+    "pathogen": "Oomycete (Phytophthora infestans)",
+    "severity": "Critical",
+    "symptoms": "Rapidly expanding dark brown to purplish-black water-soaked lesions on leaf tips and margins; white downy mildew on undersides.",
+    "organic_treatment": "Fixed copper fungicides before infection sets in; destroy infected plants immediately.",
+    "chemical_treatment": "Dimethomorph, Cymoxanil, or Propamocarb hydrochloride sprays upon first symptom detection.",
+    "prevention": "Plant resistant cultivars, avoid overhead watering, hill tubers well to prevent spore wash into soil."
+  },
+  "Potato___healthy": {
+    "crop": "Potato",
+    "disease": "Healthy Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Uniform deep green leaves, undamaged petioles, vigorous vegetative canopy.",
+    "organic_treatment": "Apply bio-fertilizer and foliar micronutrient spray to maintain vigorous canopy.",
+    "chemical_treatment": "None required.",
+    "prevention": "Maintain soil hilling, scouting schedule, and optimal soil drainage."
+  },
+  "Corn_(maize)___Common_rust_": {
+    "crop": "Corn (Maize)",
+    "disease": "Common Rust",
+    "pathogen": "Fungus (Puccinia sorghi)",
+    "severity": "Moderate",
+    "symptoms": "Elongated cinnamon-brown to golden powdery pustules (uredinia) scattered on both upper and lower leaf surfaces.",
+    "organic_treatment": "Sulfur-based dusts or bio-formulations of Trichoderma harzianum; early crop scouting.",
+    "chemical_treatment": "Foliar triazole or strobilurin fungicides (e.g., Pyraclostrobin, Propiconazole) if pustules appear before tasseling.",
+    "prevention": "Plant rust-resistant corn hybrids; early planting to avoid peak airborne urediniospore dispersal."
+  },
+  "Apple___Apple_scab": {
+    "crop": "Apple",
+    "disease": "Apple Scab",
+    "pathogen": "Fungus (Venturia inaequalis)",
+    "severity": "High (Fruit Quality Degradation)",
+    "symptoms": "Dull olive-green to black velvety spots on leaves, turning dark brown with distinct margins; leaf puckering and early leaf drop.",
+    "organic_treatment": "Liquid lime sulfur or potassium bicarbonate sprays during early green tip and petal fall stages.",
+    "chemical_treatment": "Myclobutanil, Captan, or Difenoconazole applied during primary infection periods (spring rains).",
+    "prevention": "Rake and shred or compost fallen autumn leaves to eliminate overwintering pseudothecia; prune trees for open sunlight."
+  },
+  "Pepper,_bell___Bacterial_spot": {
+    "crop": "Bell Pepper",
+    "disease": "Bacterial Spot",
+    "pathogen": "Bacterium (Xanthomonas campestris pv. vesicatoria)",
+    "severity": "High",
+    "symptoms": "Small, circular, water-soaked dark spots that develop into irregular lesions with necrotic centers and yellow halos; blossom drop.",
+    "organic_treatment": "Copper hydroxide mixed with Bacillus amyloliquefaciens; avoid working in fields when foliage is wet.",
+    "chemical_treatment": "Copper bactericides combined with Mancozeb (to overcome copper resistance in Xanthomonas strains).",
+    "prevention": "Use certified hot-water treated pathogen-free seeds; eliminate solanaceous weed hosts."
+  },
+  "Pepper,_bell___healthy": {
+    "crop": "Bell Pepper",
+    "disease": "Healthy Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Glossy green leaves, strong erect branching, intact leaf lamina without chlorosis or necrosis.",
+    "organic_treatment": "Foliar application of fish emulsion and seaweed extract.",
+    "chemical_treatment": "None required.",
+    "prevention": "Maintain soil moisture consistency to prevent blossom end rot and foliar stress."
+  }
+}
