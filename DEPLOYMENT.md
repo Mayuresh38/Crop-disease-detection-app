@@ -1,28 +1,96 @@
 # Production Deployment & Custom Domain Guide: AgriShield
 
-This guide outlines production deployment, reverse proxy setup, SSL certificate generation, and custom domain connection procedures for AgriShield.
+This guide outlines production deployment methods directly from your GitHub repository, custom domain connection, and automated SSL setup.
 
 ---
 
-## 1. Custom Domain Connection & DNS Configuration
+## 1. Deploy via GitHub to Streamlit Community Cloud (Free & Recommended)
 
-To bind a custom domain (e.g., `pathology.yourdomain.com` or `yourdomain.com`) to your server instance:
+Streamlit Community Cloud connects directly to your GitHub repository and automatically redeploys whenever you push changes to `main`.
 
-### Step 1: DNS Records Setup
-In your DNS provider (Cloudflare, AWS Route 53, Namecheap, GoDaddy, etc.), configure:
+### Step-by-Step Instructions:
+1. Open your browser and navigate to **[share.streamlit.io](https://share.streamlit.io)**.
+2. Click **Continue with GitHub** and authorize with your account (`Mayuresh38`).
+3. Click the **"New app"** button.
+4. Fill in your repository parameters:
+   - **Repository:** `Mayuresh38/Crop-disease-detection-app`
+   - **Branch:** `main`
+   - **Main file path:** `app.py`
+   - **App URL (subdomain):** e.g., `agrishield-crop-detector.streamlit.app` (or customize as preferred)
+5. Click **Deploy!**
+   - Streamlit Cloud will read `requirements.txt`, install dependencies, load the serialized model (`models/crop_disease_model.keras`), and launch your live application with free HTTPS.
 
-| Record Type | Host / Name | Target / Value | TTL |
-| :--- | :--- | :--- | :--- |
-| **A Record** | `@` (or subdomain `pathology`) | `YOUR_SERVER_PUBLIC_IPV4` | Automatic / 300s |
-| **CNAME** (Optional) | `www` | `pathology.yourdomain.com` | Automatic / 300s |
+### Connecting a Custom Domain on Streamlit Cloud:
+1. In your deployed app's settings on Streamlit Cloud, go to **Settings > Custom Domain**.
+2. Enter your custom domain (e.g., `pathology.yourdomain.com`).
+3. In your DNS provider (Cloudflare, GoDaddy, AWS Route 53), add the CNAME record specified by Streamlit pointing to your app's Streamlit domain.
 
-Verify DNS propagation:
+---
+
+## 2. Deploy via GitHub to Render (Web Service)
+
+1. Sign in to **[render.com](https://render.com)** with your GitHub account.
+2. Click **New +** > **Web Service**.
+3. Select your repository: `Mayuresh38/Crop-disease-detection-app`.
+4. Configure service settings:
+   - **Environment:** `Python 3`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true`
+5. Click **Create Web Service**.
+6. **Custom Domain:** Go to **Settings > Custom Domains** in Render, add your domain, and configure the CNAME/A record in your DNS host.
+
+---
+
+## 3. Deploy via GitHub to Hugging Face Spaces
+
+1. Create an account at **[huggingface.co](https://huggingface.co)**.
+2. Click **New Space**.
+3. Select **Space SDK:** `Streamlit`.
+4. Connect or link your GitHub repository `Mayuresh38/Crop-disease-detection-app`.
+5. Hugging Face builds the container and provides a public endpoint with free GPU/CPU tiers.
+
+---
+
+## 4. Self-Hosted VPS / Cloud Server with Custom Domain & Nginx
+
+To host on your own Linux server (Ubuntu/Debian VPS, AWS EC2, DigitalOcean Droplet):
+
+### Step 1: Clone Repository
 ```bash
-nslookup pathology.yourdomain.com
+git clone https://github.com/Mayuresh38/Crop-disease-detection-app.git
+cd Crop-disease-detection-app
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### Step 2: Nginx Reverse Proxy Configuration with Custom Domain
-Install and configure Nginx on your Linux server:
+### Step 2: Systemd Background Service
+Create `/etc/systemd/system/agrishield.service`:
+```ini
+[Unit]
+Description=AgriShield Crop Disease Decision Engine
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/var/www/Crop-disease-detection-app
+ExecStart=/var/www/Crop-disease-detection-app/venv/bin/streamlit run app.py --server.port 8501 --server.address 127.0.0.1 --server.headless true
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable agrishield
+sudo systemctl start agrishield
+```
+
+### Step 3: Nginx Reverse Proxy & Custom Domain Configuration
+Install Nginx and Certbot:
 ```bash
 sudo apt update
 sudo apt install -y nginx certbot python3-certbot-nginx
@@ -49,80 +117,24 @@ server {
 }
 ```
 
-Enable the configuration:
+Enable site:
 ```bash
 sudo ln -s /etc/nginx/sites-available/agrishield /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-### Step 3: Automated SSL Certificate (Let's Encrypt)
-Run Certbot to secure your custom domain with HTTPS:
+### Step 4: Automated SSL (HTTPS) with Let's Encrypt
 ```bash
 sudo certbot --nginx -d pathology.yourdomain.com
 ```
-Certbot automatically installs certificates and sets up automatic renewal.
 
 ---
 
-## 2. Docker Container Deployment
+## 5. Docker Container Deployment
 
-Create a `Dockerfile` in the project root:
-
-```dockerfile
-FROM python:3.11-slim
-
-WORKDIR /app
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-EXPOSE 8501
-
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
-```
-
-### Build & Run
+Build and run the containerized image:
 ```bash
 docker build -t agrishield-detector:latest .
 docker run -d --name agrishield -p 8501:8501 --restart unless-stopped agrishield-detector:latest
-```
-
----
-
-## 3. Systemd Service Deployment (Bare Metal / VPS)
-
-Create `/etc/systemd/system/agrishield.service`:
-```ini
-[Unit]
-Description=AgriShield Crop Disease Decision Engine
-After=network.target
-
-[Service]
-User=www-data
-WorkingDirectory=/var/www/crop_disease_detector
-ExecStart=/usr/bin/python3 -m streamlit run app.py --server.port 8501 --server.headless true
-Restart=always
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Enable and start:
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable agrishield
-sudo systemctl start agrishield
 ```
